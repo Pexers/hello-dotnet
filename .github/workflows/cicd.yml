@@ -8,19 +8,21 @@ on:
 
   # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
+env:
+  DOTNET_VERSION: "8.0.x"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   ci-checks:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v4
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.0
+          dotnet-version: "${DOTNET_VERSION}"
       - run: dotnet --version
 
