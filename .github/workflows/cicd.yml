@@ -13,6 +13,9 @@ jobs:
   ci-checks:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -23,8 +26,8 @@ jobs:
           dotnet-version: '8.0.x'
       - run: dotnet --version
       - name: Check code format
-        working-directory: ./app
         run: dotnet format --verify-no-changes
       - name: Run unit tests
-        working-directory: ./app
-        run: dotnet test ./HelloWorld.Tests
+        run: dotnet test ./HelloWorld.Tests 
+      - name: Create package
+        run: dotnet pack --version-suffix "1.0.0-${GITHUB_SHA::7}"
