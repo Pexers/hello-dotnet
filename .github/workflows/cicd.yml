@@ -38,8 +38,8 @@ jobs:
       - name: "Set package release version"
         run: echo "PKG_VERSION=${PKG_VERSION_PREFIX}-${GITHUB_SHA::7}" >> $GITHUB_ENV
       - name: Create package
-        run: dotnet pack /p:VersionPrefix="${PKG_VERSION_PREFIX}" --version-suffix="${GITHUB_SHA::7}" --artifacts-path=./
+        run: dotnet pack /p:VersionPrefix="${PKG_VERSION_PREFIX}" --version-suffix="${GITHUB_SHA::7}" --artifacts-path=./src
       - name: Release package
-        run: gh release create v"${PKG_VERSION}" ./package/release/*.nupkg
+        run: gh release create v"${PKG_VERSION}" ./src/package/release/*.nupkg
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
