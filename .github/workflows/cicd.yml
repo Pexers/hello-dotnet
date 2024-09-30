@@ -8,6 +8,12 @@ on:
   # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+env:
+  PROJECT_VERSION: "1.0.0-${GITHUB_SHA::7}"
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   ci-checks:
@@ -30,4 +36,8 @@ jobs:
       - name: Run unit tests
         run: dotnet test ./HelloWorld.Tests 
       - name: Create package
-        run: dotnet pack --version-suffix "1.0.0-${GITHUB_SHA::7}"
+        run: dotnet pack /p:Version="${PROJECT_VERSION} --artifacts-path=./pkg"
+      - name: Release package
+        run: gh release create v"${PROJECT_VERSION}" ./pkg/*.nupkg
+        env:
+          GITHUB_TOKEN: ${{ github.TOKEN }}
