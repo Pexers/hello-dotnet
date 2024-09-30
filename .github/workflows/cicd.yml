@@ -8,11 +8,11 @@ on:
   # Allows to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  PKG_VERSION_PREFIX: '1.0.0'
+
 permissions:
   contents: write
-
-env:
-  PROJECT_VERSION: "1.0.0-${{GITHUB_SHA::7}}"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -35,9 +35,11 @@ jobs:
         run: dotnet format --verify-no-changes
       - name: Run unit tests
         run: dotnet test ./HelloWorld.Tests 
+      - name: "Set package release version"
+        run: echo "PKG_VERSION=${PKG_VERSION_PREFIX}-${GITHUB_SHA::7}" >> $GITHUB_ENV
       - name: Create package
-        run: dotnet pack /p:Version="${PROJECT_VERSION} --artifacts-path=./pkg"
+        run: dotnet pack /p:Version="${PKG_VERSION} --artifacts-path=./pkg"
       - name: Release package
-        run: gh release create v"${PROJECT_VERSION}" ./pkg/*.nupkg
+        run: gh release create v"${PKG_VERSION}" ./pkg/*.nupkg
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
