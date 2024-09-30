@@ -35,7 +35,7 @@ jobs:
         run: dotnet format --verify-no-changes
       - name: Run unit tests
         run: dotnet test ./HelloWorld.Tests 
-      - name: "Set package release suffix"
+      - name: Set package release suffix
         run: echo "PKG_VERSION_SUFFIX=${GITHUB_SHA::7}" >> $GITHUB_ENV
       - name: Create package
         run: dotnet pack /p:VersionPrefix="${PKG_VERSION_PREFIX}" --version-suffix="${PKG_VERSION_SUFFIX}" --artifacts-path=./artifacts
