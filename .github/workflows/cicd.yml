@@ -35,11 +35,11 @@ jobs:
         run: dotnet format --verify-no-changes
       - name: Run unit tests
         run: dotnet test ./HelloWorld.Tests 
-      - name: "Set package release version"
-        run: echo "PKG_VERSION=${PKG_VERSION_PREFIX}-${GITHUB_SHA::7}" >> $GITHUB_ENV
+      - name: "Set package release suffix"
+        run: echo "PKG_VERSION_SUFFIX=${GITHUB_SHA::7}" >> $GITHUB_ENV
       - name: Create package
-        run: dotnet pack /p:VersionPrefix="${PKG_VERSION_PREFIX}" --version-suffix="${GITHUB_SHA::7}" --artifacts-path=./src
+        run: dotnet pack /p:VersionPrefix="${PKG_VERSION_PREFIX}" --version-suffix="${PKG_VERSION_SUFFIX}" --artifacts-path=./artifacts
       - name: Release package
-        run: gh release create v"${PKG_VERSION}" ./src/package/release/*.nupkg
+        run: gh release create v"${PKG_VERSION_PREFIX}-${PKG_VERSION_SUFFIX}" ./artifacts/package/release/*.nupkg
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
