@@ -23,4 +23,6 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - run: dotnet --version
-
+      - name: Check code format
+        working-directory: ./app
+        run: dotnet format --verify-no-changes
