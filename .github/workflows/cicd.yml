@@ -38,7 +38,7 @@ jobs:
       - name: "Set package release version"
         run: echo "PKG_VERSION=${PKG_VERSION_PREFIX}-${GITHUB_SHA::7}" >> $GITHUB_ENV
       - name: Create package
-        run: dotnet pack /p:Version="${PKG_VERSION} --artifacts-path=./pkg"
+        run: dotnet pack /p:VersionPrefix="${PKG_VERSION_PREFIX}" --version-suffix="${GITHUB_SHA::7}" --artifacts-path=./pkg"
       - name: Release package
         run: gh release create v"${PKG_VERSION}" ./pkg/*.nupkg
         env:
