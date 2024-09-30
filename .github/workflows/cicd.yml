@@ -26,3 +26,10 @@ jobs:
       - name: Check code format
         working-directory: ./app
         run: dotnet format --verify-no-changes
+      - name: Check code format
+        working-directory: ./app
+        run: dotnet format --verify-no-changes
+      - name: Run unit tests
+        working-directory: ./app
+        run: dotnet test ./HelloWorld.Tests
+
