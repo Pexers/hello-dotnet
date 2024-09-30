@@ -7,6 +7,6 @@ public class UnitTest
     public void Test1()
     {
         string response = App.GetMessage();
-        Assert.Equal(response, "Hello, World!");
+        Assert.Equal("Hello, World!", response);
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace HelloWorld
+﻿namespace HelloWorld
 {
     public class App
     {
